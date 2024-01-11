@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="stylerps.css">  
+    </head>
+    <body>
+        <div class="topDiv">
+            <h1>Rock Paper Scissors</h1>
+            <p>The first one who reaches the score of 5 wins the game</p>
+            <button class="playBtn">Let's play!</button>
+        </div>
+
+        <div class="choicebtns">
+            <button class="btns" id="rock" value="rock">Rock</button>
+            <button class="btns" id="paper" value="paper">Paper</button>
+            <button class="btns" id="scissors" value="scissors">Scissors</button>
+        </div>
+
+        <div class="lastGame">
+            <p class="lastGameResult"></p>
+        </div>
+
+        <div class="results">
+            <div class="score you">
+                <label>Your score: <output>0</output></label>    
+            </div>
+
+            <div class="score comp">
+                <label>Computer score: <output>0</output></label>    
+            </div>
+                        
+        </div>
+        
+        <script>
+
+let lastGameText = document.querySelector(".lastGameResult"); //last point result 
+let playerSelection = "";
+const playerChoices = document.querySelectorAll(".btns"); //buttons to choose rps
+const letsPlay = document.querySelector(".playBtn"); //Let's Play button
+const playerScore = document.querySelector(".you > label>output");
+const compScore = document.querySelector(".comp > label>output");
+
+letsPlay.addEventListener("click", function() {
+    playerScore.textContent = 0;
+    compScore.textContent = 0;
+});
+
+playerChoices.forEach(item => { item.addEventListener('click', function(event) {
+    let clickedItem = event.target;
+    let playerSelection = clickedItem.getAttribute("value");
+    play(playerSelection);
+    });
+});
+
+function getComputerChoice() {
+    let x = Math.floor(Math.random()*3) + 1;
+    switch(x) {
+        case 1:
+            y = "rock";
+            alert("Computer choice: " + y);
+            break;
+        case 2:
+            y =  "paper";
+            alert("Computer choice: " + y);
+            break;
+        case 3:
+            y = "scissors";
+            alert("Computer choice: " + y);
+            break;
+    } return y;
+}
+
+function playRound(playerSelection, computerSelection) {
+    if (playerSelection == computerSelection) {
+        lastGameText.textContent = "It's a tie! Enter a new selection.";
+        return 0;
+    } 
+    else if (playerSelection == "scissors") {
+        if (computerSelection == "rock") {
+            lastGameText.textContent = "Computer wins! Rock beats Scissors.";
+            return "C";
+        } else {
+            lastGameText.textContent = "You win! Scissors beat Paper.";
+            return "P";
+        }
+    }
+    else if (playerSelection == "rock") {
+        if (computerSelection == "paper") {
+            lastGameText.textContent = "Computer wins! Raper beats Rock.";
+            return "C";
+        } else {
+            lastGameText.textContent = "You win! Rock beats Scissors.";
+            return "P";
+        }
+    }
+    else if (playerSelection == "paper") {
+        if (computerSelection == "scissors") {
+            lastGameText.textContent = "Computer wins! Scissors beat Paper.";
+            return "C";
+        } else {
+            lastGameText.textContent = "You win! Paper beats Rock.";
+            return "P";
+        }
+    } 
+} 
+
+
+function play(playerSelection) {
+    let rslt = 0;
+    alert(playerSelection);
+    rslt = playRound(playerSelection, getComputerChoice());
+    console.log(rslt);
+    if (rslt == "P") {
+        playerScore.textContent = parseInt(playerScore.textContent) + 1;
+    } 
+    else if (rslt == "C") {
+        compScore.textContent = parseInt(compScore.textContent) + 1;
+    }
+    return endGame(); 
+}
+
+function endGame() {
+    if (parseInt(playerScore.textContent) >= 5 || parseInt(compScore.textContent) >= 5); {
+        if (parseInt(playerScore.textContent) == 5) {
+            lastGameText.textContent = 'You win the game';
+            playerScore.textContent = 0;
+            compScore.textContent = 0;
+        } else if (parseInt(compScore.textContent) === 5) { 
+            lastGameText.textContent = 'You were beaten by a dum computer!';
+            playerScore.textContent = 0;
+            compScore.textContent = 0;
+        }
+    }
+} 
+    </script>
+
+    </body>
+</html>
+
